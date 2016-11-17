@@ -1,52 +1,46 @@
 FinalProyecto
 ==============
 
-Template for a simple Vaadin application that only requires a Servlet 3.0 container to run.
+ El proyecto esta realizado usando el Framework de Vaadin, la documentacion la pueden encontrar en:
+ 
+    https://vaadin.com/docs/
 
+Les recomiendo desde netbeans importar el proyecto de git, dentro de la carpeta source packages hay 3 paquetes:
 
-Workflow
-========
+* DAO
+* classes
+* services
 
-To compile the entire project, run "mvn install".
+En cada clase de service podran encontrar los apartados a desarrollar, actualmente ya esta desarrollado el logi  y la ventana principal con el menu.
 
-To run the application, run "mvn jetty:run" and open http://localhost:8080/ .
+Falta:
 
-To produce a deployable production mode WAR:
-- change productionMode to true in the servlet class configuration (nested in the UI class)
-- run "mvn clean package"
-- test the war file with "mvn jetty:run-war"
+Delitos
+==========
+* Agregar un nuevo delito
+* Buscar un delito
 
-Client-Side compilation
--------------------------
+Reporte
+=========
 
-The generated maven project is using an automatically generated widgetset by default. 
-When you add a dependency that needs client-side compilation, the maven plugin will 
-automatically generate it for you. Your own client-side customisations can be added into
-package "client".
+*Estadisticas
+*Gráficas
 
-Debugging client side code
-  - run "mvn vaadin:run-codeserver" on a separate console while the application is running
-  - activate Super Dev Mode in the debug window of the application
+Acerca de
+===========
+acerca de 
 
-Developing a theme using the runtime compiler
--------------------------
+Finalizar sesion
+============
+(Este lo estoy haciendo)
 
-When developing the theme, Vaadin can be configured to compile the SASS based
-theme at runtime in the server. This way you can just modify the scss files in
-your IDE and reload the browser to see changes.
+Base de datos
+===============
 
-To use the runtime compilation, open pom.xml and comment out the compile-theme 
-goal from vaadin-maven-plugin configuration. To remove a possibly existing 
-pre-compiled theme, run "mvn clean package" once.
+La base de datos la encuentran en la siguiente liga:
+http://emmanuelPaez.org/LaboratorioWeb.sql
 
-When using the runtime compiler, running the application in the "run" mode 
-(rather than in "debug" mode) can speed up consecutive theme compilations
-significantly.
+Esta desarrollada en mySQL , ahi encontraran las tablas y queries necesarios para realizar el DAO, sobre la conexion a la base de datos mediante Vaadin, les recomiendo leer la siguiente información, ya hay un ejemplo en el DAO Login
 
-It is highly recommended to disable runtime compilation for production WAR files.
+https://vaadin.com/docs/-/part/framework/sqlcontainer/sqlcontainer-architecture.html
 
-Using Vaadin pre-releases
--------------------------
-
-If Vaadin pre-releases are not enabled by default, use the Maven parameter
-"-P vaadin-prerelease" or change the activation default value of the profile in pom.xml .
