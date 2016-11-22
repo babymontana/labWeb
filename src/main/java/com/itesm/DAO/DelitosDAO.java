@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.itesm.DAO;
 
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
@@ -12,16 +8,13 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author emmanuelpaez
- */
-public class Categorias {
+public class DelitosDAO {
     
-    private SQLContainer container;
-    public Categorias(){
+       private SQLContainer container;
+    
+       public DelitosDAO(){
       JDBCConnectionPool pool = new Conexion().conectar();
-      TableQuery tq = new TableQuery("Categoria", pool);
+      TableQuery tq = new TableQuery("F_Crimenes_2", pool);
       tq.setVersionColumn("OPTLOCK");
         try {
             container = new SQLContainer(tq);
@@ -38,8 +31,5 @@ public class Categorias {
     public void setContainer(SQLContainer container) {
         this.container = container;
     }
-    
-    
-    
     
 }

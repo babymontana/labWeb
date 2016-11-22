@@ -10,6 +10,7 @@ import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.sqlcontainer.SQLContainer;
 import com.vaadin.data.util.sqlcontainer.connection.JDBCConnectionPool;
 import com.vaadin.data.util.sqlcontainer.query.TableQuery;
+import com.vaadin.server.VaadinService;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +28,8 @@ public class Login {
             tq.setVersionColumn("OPTLOCK");
            SQLContainer container = new SQLContainer(tq);
             container.addContainerFilter(new And(new Compare.Equal("ADMINISTRATOR_NAME",user),new Compare.Equal("ADMINISTRATOR_PASSWORD",password)));
+            VaadinService.getCurrentRequest().getWrappedSession().setAttribute("id", container.firstItemId());
+
             size = container.size();
         } catch (SQLException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);

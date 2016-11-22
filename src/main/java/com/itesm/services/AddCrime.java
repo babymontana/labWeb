@@ -1,6 +1,8 @@
 package com.itesm.services;
 
 import com.itesm.classes.Categorias;
+import com.itesm.classes.Delito;
+import com.itesm.classes.Delitos;
 import com.itesm.classes.Distritos;
 import javax.servlet.annotation.WebServlet;
 
@@ -11,13 +13,16 @@ import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.PropertysetItem;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.InlineDateField;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextArea;
@@ -25,6 +30,12 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 @Theme("mytheme")
@@ -69,15 +80,24 @@ public class AddCrime extends UI {
         descripcion.setRequired(true);
          form.addComponent(descripcion);
          form.addComponent(new Label("<br/>",Label.CONTENT_XHTML));
-        
+         
+        InlineDateField fecha = new InlineDateField();
+        fecha.setValue(new Date());
+        fecha.setImmediate(true);
+        fecha.setTimeZone(TimeZone.getTimeZone("UTC"));
+        fecha.setLocale(Locale.US);
+        fecha.setResolution(Resolution.MINUTE);
+        fecha.setRequired(true);
+        form2.addComponent(fecha);
+          
         TextArea resolucion = new TextArea();
         resolucion.setColumns(20);
         resolucion.setImmediate(true);
         resolucion.setInputPrompt("Resolución.");
         resolucion.setMaxLength(100);
         resolucion.setRequired(true);
-        form2.addComponent(resolucion);
-        form2.addComponent(new Label("<br/>",Label.CONTENT_XHTML));
+        form.addComponent(resolucion);
+        form.addComponent(new Label("<br/>",Label.CONTENT_XHTML));
         
         TextArea direccion = new TextArea();
         direccion.setImmediate(true);
@@ -85,7 +105,7 @@ public class AddCrime extends UI {
         direccion.setInputPrompt("Dirección.");
         direccion.setMaxLength(100);
         direccion.setRequired(true);
-        form2.addComponent(direccion);
+        form.addComponent(direccion);
         
                 
         Button boton = new Button("Agregar");
@@ -121,6 +141,27 @@ public class AddCrime extends UI {
                     descripcion.validate();
                     resolucion.validate();
                     direccion.validate();
+                    fecha.validate();
+                  Delito delito = new Delito(Integer.parseInt(VaadinService.getCurrentRequest().getWrappedSession().getAttribute("id").toString()),Integer.parseInt(categorias.getValue().toString()),Integer.parseInt(distritos.getValue().toString()),descripcion.getValue(),resolucion.getValue(),direccion.getValue(),fecha.getValue());
+    ;                   Delitos delitos = new Delitos();
+                 
+                    
+                    try {
+                        
+                       
+                        delitos.addDelito(delito);
+                        Notification.show("Registro agregado exitosamente.",Notification.Type.HUMANIZED_MESSAGE);
+                        categorias.setValue(null);
+                        distritos.setValue(null);
+                        descripcion.setValue("");
+                        resolucion.setValue("");
+                        direccion.setValue("");
+                        fecha.setValue(new Date());
+
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                       Notification.show("Lo sentimos ha ocurrido un error.",Notification.Type.ERROR_MESSAGE);
+                    }
                     
                     
                     
