@@ -22,6 +22,10 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.shared.ui.datefield.Resolution;
+import com.vaadin.tapio.googlemaps.GoogleMap;
+import com.vaadin.tapio.googlemaps.client.LatLon;
+import com.vaadin.tapio.googlemaps.client.events.MarkerClickListener;
+import com.vaadin.tapio.googlemaps.client.overlays.GoogleMapMarker;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -44,13 +48,16 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.ContextMenu;
 import javax.servlet.annotation.WebServlet;
+
 
 /**
  *
  * @author emmanuelpaez
  */
 @Theme("mytheme")
+@SuppressWarnings("serial")
 public class SearchCrime extends UI {
 
     @Override
@@ -144,11 +151,31 @@ public class SearchCrime extends UI {
           botonM.addClickListener(new Button.ClickListener(){
               @Override
             public void buttonClick(final Button.ClickEvent event) {
-            
+              
+                SQLContainer delitosTab = new Delitos().getDelitosData();
+                delitosTab.addContainerFilter(new And (new Greater("DATE",fecha1.getValue()),new Less("DATE",fecha2.getValue())));
+                
+                GoogleMap googleMap;
+              VerticalLayout map = new VerticalLayout();
+               map.setSizeFull();
+               googleMap = new GoogleMap("AIzaSyAsJw-cS7yiVQ3He3vfgFxUZ2_5LgUhVsM", null, null);
+                googleMap.setCenter(new LatLon(34.9598942,-98.4262235));
+                googleMap.setZoom(4);
+                googleMap.setSizeFull();
+                for (Object i :delitosTab.getItemIds()){
+                   Item delito =  delitosTab.getItem(i);
+                   Property x = delito.getItemProperty("X");
+                   Property Y = delito.getItemProperty("Y");
+                   
+                    googleMap.addMarker("Delito", new LatLon(Double.parseDouble((String)x.getValue()),  Double.parseDouble((String)Y.getValue())), true, null);
+                }
+                      
+                 map.addComponent(googleMap);
+                map.setExpandRatio(googleMap, 1.0f);
             final Window window = new Window("Mapa");
             window.setWidth(800.0f, Unit.PIXELS);
-            final VerticalLayout content = new VerticalLayout();
-            window.setContent(content);
+            window.setHeight(800.0f, Unit.PIXELS);
+            window.setContent(map);
             UI.getCurrent().addWindow(window);
             }
               
