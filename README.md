@@ -11,9 +11,6 @@ Páez López Emmanuel 			       A01334150
 Silva Vigueras Abraham 			    A01214746
 Beltrán Molas Patricio 			    A01214746
 
-La Base de datos se puede descargar de:
-
-http://emmmanuelPaez.org/web.sql
 
 
 
