@@ -141,7 +141,7 @@ public class SearchCrime extends UI {
   
           Button botonM = new Button("Mapa");
           menu.addComponent(botonM);
-          boton.addClickListener(new Button.ClickListener(){
+          botonM.addClickListener(new Button.ClickListener(){
               @Override
             public void buttonClick(final Button.ClickEvent event) {
             
