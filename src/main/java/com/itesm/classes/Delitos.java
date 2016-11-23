@@ -62,23 +62,34 @@ public class Delitos {
     }
      
     public void addDelito(Delito delito) throws SQLException{
-        DelitosDAO data = new DelitosDAO();
-        SQLContainer delitos = data.getContainer();
-        Object newDelito = delitos.addItem();
+        
+        Object newDelito = delitosData.addItem();
         
        String[] coord=coords(delito.getADDRESS());
-       delitos.getContainerProperty(newDelito , "ADMINISTRATORKEY").setValue(delito.getADMINISTRADORKEY());
-       delitos.getContainerProperty(newDelito , "CATEGORYKEY").setValue(delito.getADMINISTRADORKEY());
-       delitos.getContainerProperty(newDelito , "DISTRICTKEY").setValue(delito.getDISTRICTKEY());
-       delitos.getContainerProperty(newDelito , "DESCRIPTION").setValue(delito.getDESCRIPTION());
-       delitos.getContainerProperty(newDelito , "RESOLUTION").setValue(delito.getRESOLUTION());
-       delitos.getContainerProperty(newDelito , "ADDRESS").setValue(delito.getADDRESS());
-       delitos.getContainerProperty(newDelito , "INCIDENTTIME").setValue(delito.getINCIDENTTIME());
-       delitos.getContainerProperty(newDelito , "DATE").setValue(delito.getDate());
-        delitos.getContainerProperty(newDelito , "X").setValue(coord[0]);
-        delitos.getContainerProperty(newDelito , "Y").setValue(coord[1]);
-       delitos.commit();
+       delitosData.getContainerProperty(newDelito , "ADMINISTRATORKEY").setValue(delito.getADMINISTRADORKEY());
+       delitosData.getContainerProperty(newDelito , "CATEGORYKEY").setValue(delito.getADMINISTRADORKEY());
+       delitosData.getContainerProperty(newDelito , "DISTRICTKEY").setValue(delito.getDISTRICTKEY());
+       delitosData.getContainerProperty(newDelito , "DESCRIPTION").setValue(delito.getDESCRIPTION());
+       delitosData.getContainerProperty(newDelito , "RESOLUTION").setValue(delito.getRESOLUTION());
+       delitosData.getContainerProperty(newDelito , "ADDRESS").setValue(delito.getADDRESS());
+       delitosData.getContainerProperty(newDelito , "INCIDENTTIME").setValue(delito.getINCIDENTTIME());
+       delitosData.getContainerProperty(newDelito , "DATE").setValue(delito.getDate());
+        delitosData.getContainerProperty(newDelito , "X").setValue(coord[0]);
+        delitosData.getContainerProperty(newDelito , "Y").setValue(coord[1]);
+       delitosData.commit();
     }
+
+    public SQLContainer getDelitosData() {
+        return delitosData;
+    }
+
+    public void setDelitosData(SQLContainer delitosData) {
+        this.delitosData = delitosData;
+    }
+    
+    
+    
+    
 
     
 }
